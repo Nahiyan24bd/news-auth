@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📰 Bangla News 24 (News & Auth Portal)
 
-## Getting Started
+একটি আধুনিক, দ্রুতগতির এবং সম্পূর্ণ মোবাইল-রেসপন্সিভ অনলাইন নিউজ পোর্টাল ও অথেনটিকেশন ওয়েব অ্যাপ্লিকেশন। এটি তৈরি করা হয়েছে **Next.js (App Router)**, **TypeScript**, এবং **Tailwind CSS** ব্যবহার করে।
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 প্রধান ফিচারসমূহ (Key Features)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **সর্বশেষ সংবাদ স্ক্রলিং (Breaking News Marquee):** পৃষ্ঠার শীর্ষে স্বয়ংক্রিয়ভাবে লাইভ সংবাদ শিরোনাম স্ক্রল হওয়ার ব্যবস্থা।
+- **ডায়নামিক নিউজ ফিড (Dynamic News Feed):** প্রধান খবর (Main News) এবং ক্যাটাগরিভিত্তিক সংবাদের সুন্দর গ্রিড ও কার্ড ডিসপ্লে।
+- **ইউজার অথেনটিকেশন ইউআই (Authentication UI):**
+  - মিনিমাল ও ক্লিন সাইন ইন পেজ (`/sign-in` বা `/sing-in`)
+  - পূর্ণাঙ্গ ফিল্ডসহ সাইন আপ পেজ (`/sign-up` বা `/sing-up`)
+- **সম্পূর্ণ মোবাইল রেসপন্সিভ (Fully Responsive):** মোবাইল, ট্যাবলেট ও ডেস্কটপ সব ধরনের ডিভাইসের জন্য অপ্টিমাইজড লেআউট।
+- **সার্ভার সাইড রেন্ডারিং (SSR) ও ক্যাশিং:** দ্রুত ডেটা লোডিং নিশ্চিত করতে Next.js-এর ইন-বিল্ট ক্যাশিং ও রিভ্যালিডেশন সাপোর্ট।
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠 ব্যবহৃত প্রযুক্তি (Tech Stack)
 
-## Learn More
+- **Framework:** [Next.js](https://nextjs.org/) (App Router)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components:** [HeroUI](https://heroui.com/)
+- **Utilities:** `react-marquee-text`
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 ফোল্ডার স্ট্রাকচার (Folder Structure)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+news-auth/
+├── src/
+│   ├── app/
+│   │   ├── (auth)/
+│   │   │   ├── sign-in/
+│   │   │   │   └── page.tsx
+│   │   │   └── sign-up/
+│   │   │       └── page.tsx
+│   │   ├── category/
+│   │   │   └── [categoryId]/
+│   │   ├── news/
+│   │   │   └── [newsId]/
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   └── components/
+│       ├── Header.tsx
+│       ├── NavLinks.tsx
+│       ├── Marquee.tsx
+│       ├── MainNews.tsx
+│       ├── NewsCard.tsx
+│       ├── MostRead.tsx
+│       └── Footer.tsx
+├── public/
+│   └── logo.webp
+├── package.json
+└── README.md
