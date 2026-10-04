@@ -24,6 +24,11 @@ export const auth = betterAuth({
   database: mongodbAdapter(db, {
     client,
   }),
+
+  trustedOrigins: [
+    "https://*.vercel.app", // Vercel-এর সব ব্রাঞ্চ ও প্রিভিউ লিংক সাপোর্ট করবে
+    "http://localhost:3000",
+  ],
   emailAndPassword: {
     enabled: true,
   },
