@@ -2,8 +2,14 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { authClient } from "@/lib/auth-client"; // আপনার authClient ফাইলটির সঠিক পাথ দিন
 
 const SignUp = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     image: "",
@@ -18,22 +24,46 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Sign Up Data:", formData);
+    setLoading(true);
+
+    try {
+      // data ব্যবহার না করায় শুধু error নেওয়া হয়েছে
+      const { error } = await authClient.signUp.email({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        image: formData.image || undefined,
+        callbackURL: "/",
+      });
+
+      if (error) {
+        toast.error(error.message || "রেজিস্ট্রেশন ব্যর্থ হয়েছে!");
+        setLoading(false);
+        return;
+      }
+
+      toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
+      router.push("/");
+      router.refresh();
+    } catch (err: unknown) { // any এর বদলে unknown ব্যবহার করুন
+      const message =
+        err instanceof Error ? err.message : "সার্ভার এরর! কিছুক্ষণ পর চেষ্টা করুন।";
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className=" min-h-screen flex items-center justify-center px-4 py-5">
+    <div className="flex justify-center px-4 py-8">
       <div className="w-full max-w-md bg-transparent">
-        {/* শীর্ষ শিরোনাম */}
         <h1 className="text-3xl font-bold text-center text-[#b80000] mb-8">
           সাইন আপ
         </h1>
 
-        {/* ফর্ম */}
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* নাম ফিল্ড */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
               নাম
@@ -44,11 +74,11 @@ const SignUp = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full h-11 px-3.5 rounded border border-slate-300 bg-white text-slate-800 text-sm focus:outline-none focus:ring-1 focus:ring-red-600 focus:border-red-600 transition-colors shadow-2xs"
+              disabled={loading}
+              className="w-full h-11 px-3.5 rounded border border-slate-300 bg-white text-slate-800 text-sm focus:outline-none focus:ring-1 focus:ring-red-600 focus:border-red-600"
             />
           </div>
 
-          {/* ইমেজ ফিল্ড */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
               Image
@@ -59,11 +89,11 @@ const SignUp = () => {
               value={formData.image}
               onChange={handleChange}
               placeholder="https://..."
-              className="w-full h-11 px-3.5 rounded border border-slate-300 bg-white text-slate-800 text-sm focus:outline-none focus:ring-1 focus:ring-red-600 focus:border-red-600 transition-colors shadow-2xs"
+              disabled={loading}
+              className="w-full h-11 px-3.5 rounded border border-slate-300 bg-white text-slate-800 text-sm focus:outline-none focus:ring-1 focus:ring-red-600 focus:border-red-600"
             />
           </div>
 
-          {/* ইমেইল ফিল্ড */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
               ইমেইল
@@ -74,11 +104,11 @@ const SignUp = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full h-11 px-3.5 rounded border border-slate-300 bg-white text-slate-800 text-sm focus:outline-none focus:ring-1 focus:ring-red-600 focus:border-red-600 transition-colors shadow-2xs"
+              disabled={loading}
+              className="w-full h-11 px-3.5 rounded border border-slate-300 bg-white text-slate-800 text-sm focus:outline-none focus:ring-1 focus:ring-red-600 focus:border-red-600"
             />
           </div>
 
-          {/* পাসওয়ার্ড ফিল্ড */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
               পাসওয়ার্ড
@@ -89,22 +119,22 @@ const SignUp = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full h-11 px-3.5 rounded border border-slate-300 bg-white text-slate-800 text-sm focus:outline-none focus:ring-1 focus:ring-red-600 focus:border-red-600 transition-colors shadow-2xs"
+              disabled={loading}
+              className="w-full h-11 px-3.5 rounded border border-slate-300 bg-white text-slate-800 text-sm focus:outline-none focus:ring-1 focus:ring-red-600 focus:border-red-600"
             />
           </div>
 
-          {/* সাইন আপ বাটন */}
           <div className="pt-2">
             <button
               type="submit"
-              className="w-full h-11 bg-[#b80000] hover:bg-[#990000] text-white font-bold rounded text-base transition-colors shadow-xs cursor-pointer flex items-center justify-center"
+              disabled={loading}
+              className="w-full h-11 bg-[#b80000] hover:bg-[#990000] text-white font-bold rounded text-base transition-colors flex items-center justify-center disabled:opacity-50"
             >
-              সাইন আপ করুন
+              {loading ? "অ্যাকাউন্ট তৈরি হচ্ছে..." : "সাইন আপ করুন"}
             </button>
           </div>
         </form>
 
-        {/* সাইন ইন লিঙ্ক */}
         <p className="text-center text-sm text-slate-600 mt-6 font-medium">
           অ্যাকাউন্ট আছে?{" "}
           <Link
