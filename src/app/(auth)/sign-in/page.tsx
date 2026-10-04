@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import { authClient } from "@/lib/auth-client";
 
-const SignIn = () => {
+const SignInForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -136,4 +136,17 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+// Suspense Boundary দিয়ে মূল পেজ এক্সপোর্ট করা হলো
+export default function SignInPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-[80vh] flex items-center justify-center">
+          <p className="text-slate-500 font-medium">লোড হচ্ছে...</p>
+        </div>
+      }
+    >
+      <SignInForm />
+    </Suspense>
+  );
+}
